@@ -37,14 +37,14 @@ class SignUpForm extends Component {
     });
   }
 
-  renderInput = (name, placeholder, type) => {
+  renderInput = (value, name, placeholder, type) => {
     const { onChange } = this;
-
+    
     return (
       <input 
         type={type || 'text'} 
-        name={Object.keys({ name })[0]}
-        value={name}
+        name={name}
+        value={value}
         onChange={onChange}
         placeholder={placeholder}
       />
@@ -52,22 +52,35 @@ class SignUpForm extends Component {
   }
 
   render() {
-    const { onChange, onSubmit, renderInput } = this;
     const {
-      username,
-      email,
-      password,
-      passwordConfirm,
-      error,
-    } = this.state;
+      onChange, 
+      onSubmit, 
+      renderInput,
+      state: {
+        username,
+        email,
+        password,
+        passwordConfirm,
+        error,
+      },
+    } = this;
+
+    const isInvalid = 
+      password !== passwordConfirm ||
+      !password ||
+      !email ||
+      !username;
 
     return(
       <form onSubmit={onSubmit}>
-        {renderInput(username, 'Full Name')}
-        {renderInput(email, 'Email Address', 'email')}
-        {renderInput(password, 'Password', 'password')}
-        {renderInput(passwordConfirm, 'Password Confirm', 'password')}
-        <button type="submit">Sign Up</button>
+        {renderInput(username, 'username', 'Full Name')}
+        {renderInput(email, 'email', 'Email Address', 'email')}
+        {renderInput(password, 'password', 'Password', 'password')}
+        {renderInput(passwordConfirm, 'passwordConfirm', 'Confirm Password', 'password')}
+
+        <button disabled={isInvalid} type="submit">
+          Sign Up
+        </button>
 
         {error && <p>{error.message}</p>}
       </form>
