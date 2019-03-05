@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import { FirebaseContext } from '../Firebase';
 import { SIGN_UP } from '../../constants/routes';
 
 const SignUpPage = () => {
   return (
     <div>
       <h1>Sign Up</h1>
-      <SignUpForm />
+      <FirebaseContext.Consumer>
+        {firebase => <SignUpForm firebase={firebase} />}
+      </FirebaseContext.Consumer>
     </div>
-  )
+  );
 }
 
 const INITIAL_STATE = {
@@ -27,8 +30,27 @@ class SignUpForm extends Component {
     this.state = { ...INITIAL_STATE };
   }
 
-  onSubmit = e => {
+  onSubmit = async e => {
+    e.preventDefault();
 
+    const {
+      props: {
+        firebase,
+      },
+      state: {
+        username,
+        email,
+        password,
+      }, 
+    } = this;
+    
+    try {
+      const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password);
+
+      this.setState({ ...INITIAL_STATE });
+    } catch(error) {
+      this.setState({ error });
+    }
   }
 
   onChange = e => {
