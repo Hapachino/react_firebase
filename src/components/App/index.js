@@ -32,7 +32,7 @@ const App = () => {
         <Route path={SIGN_UP} component={SignUpPage} />
       </div>
     </Router>
-  )
+  );
 }
 
 export default App;
