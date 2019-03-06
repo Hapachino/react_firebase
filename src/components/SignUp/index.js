@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
+import Input from '../Input';
 import { withFirebase } from '../Firebase';
 import { HOME, SIGN_UP } from '../../constants/routes';
 
@@ -61,20 +62,6 @@ class SignUpFormBase extends Component {
     });
   }
 
-  renderInput = (value, name, placeholder, type) => {
-    const { onChange } = this;
-    
-    return (
-      <input 
-        type={type || 'text'} 
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
-    );
-  }
-
   render() {
     const {
       onChange, 
@@ -97,10 +84,10 @@ class SignUpFormBase extends Component {
 
     return(
       <form onSubmit={onSubmit}>
-        {renderInput(username, 'username', 'Full Name')}
-        {renderInput(email, 'email', 'Email Address', 'email')}
-        {renderInput(password, 'password', 'Password', 'password')}
-        {renderInput(passwordConfirm, 'passwordConfirm', 'Confirm Password', 'password')}
+        {Input(username, 'username', 'Full Name')}
+        {Input(email, 'email', 'Email Address', 'email')}
+        {Input(password, 'password', 'Password', 'password')}
+        {Input(passwordConfirm, 'passwordConfirm', 'Confirm Password', 'password')}
 
         <button disabled={isInvalid} type="submit">
           Sign Up
