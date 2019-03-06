@@ -66,7 +66,6 @@ class SignUpFormBase extends Component {
     const {
       onChange, 
       onSubmit, 
-      renderInput,
       state: {
         username,
         email,
@@ -101,7 +100,7 @@ class SignUpFormBase extends Component {
 
 const SignUpLink = () => (
   <p>
-    Don't have an account? <Link to={SIGN_UP}>Sign UP</Link>
+    Don't have an account? <Link to={SIGN_UP}>Sign Up</Link>
   </p>
 );
 

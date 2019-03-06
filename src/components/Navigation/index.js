@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { ADMIN, ACCOUNT, HOME, LANDING, SIGN_IN } from '../../constants/routes';
+import { ACCOUNT, HOME, LANDING, SIGN_IN } from '../../constants/routes';
+import SignOutButton from '../SignOut';
 
-const links = [
+const authLinks = [
   {
-    route: ADMIN,
-    text: 'Admin',
+    route: LANDING,
+    text: 'Landing',
   },
   {
     route: ACCOUNT,
@@ -17,6 +18,12 @@ const links = [
     text: 'Home',
   },
   {
+    component: <SignOutButton />,
+  },
+];
+
+const nonAuthLinks = [
+  {
     route: LANDING,
     text: 'Landing',
   },
@@ -26,7 +33,15 @@ const links = [
   },
 ];
 
-const renderLink = ({ route, text }) => {
+const renderLink = ({ route, text, component }) => {
+  if (component) {
+    return (
+      <li key={Math.random()}>
+        {component}
+      </li>
+    );
+  }
+
   return (
     <li key={route}>
       <Link to={route}>{text}</Link>
@@ -34,10 +49,12 @@ const renderLink = ({ route, text }) => {
   );
 };
 
-const Navigation = () => {
+const Navigation = ({ authUser }) => {
   return (
     <ul>
-      {links.map(renderLink)}
+      {authUser 
+        ? authLinks.map(renderLink)
+        : nonAuthLinks.map(renderLink)}
     </ul>
   );
 };
