@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
+import { HOME, SIGN_UP } from '../../constants/routes';
 import Input from '../Input';
 import { withFirebase } from '../Firebase';
-import { HOME, SIGN_UP } from '../../constants/routes';
 
 const SignUpPage = () => {
   return (
@@ -84,12 +84,12 @@ class SignUpFormBase extends Component {
 
     return(
       <form onSubmit={onSubmit}>
-        {Input(username, 'username', 'Full Name')}
-        {Input(email, 'email', 'Email Address', 'email')}
-        {Input(password, 'password', 'Password', 'password')}
-        {Input(passwordConfirm, 'passwordConfirm', 'Confirm Password', 'password')}
+        {Input(onChange, username, 'username', 'Full Name')}
+        {Input(onChange, email, 'email', 'Email Address', 'email')}
+        {Input(onChange, password, 'password', 'Password', 'password')}
+        {Input(onChange, passwordConfirm, 'passwordConfirm', 'Confirm Password', 'password')}
 
-        <button disabled={isInvalid} type="submit">
+        <button disabled={isInvalid}>
           Sign Up
         </button>
 
