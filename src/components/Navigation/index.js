@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { ACCOUNT, HOME, LANDING, SIGN_IN } from '../../constants/routes';
+import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 
 const authLinks = [
@@ -49,12 +50,15 @@ const renderLink = ({ route, text, component }) => {
   );
 };
 
-const Navigation = ({ authUser }) => {
+const Navigation = () => {
   return (
     <ul>
-      {authUser 
-        ? authLinks.map(renderLink)
-        : nonAuthLinks.map(renderLink)}
+      <AuthUserContext.Consumer>
+        {authUser =>
+          authUser
+          ? authLinks.map(renderLink)
+          : nonAuthLinks.map(renderLink)}
+      </AuthUserContext.Consumer>
     </ul>
   );
 };
