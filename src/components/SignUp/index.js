@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
-import { SIGN_UP } from '../../constants/routes';
+import { HOME, SIGN_UP } from '../../constants/routes';
 
 const SignUpPage = () => {
   return (
@@ -34,6 +35,7 @@ class SignUpFormBase extends Component {
     const {
       props: {
         firebase,
+        history,
       },
       state: {
         username,
@@ -46,6 +48,8 @@ class SignUpFormBase extends Component {
       const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password);
 
       this.setState({ ...INITIAL_STATE });
+      
+      history.push(HOME);
     } catch(error) {
       this.setState({ error });
     }
@@ -114,7 +118,10 @@ const SignUpLink = () => (
   </p>
 );
 
-const SignUpForm = withFirebase(SignUpFormBase);
+const SignUpForm = compose(
+  withRouter,
+  withFirebase
+)(SignUpFormBase);
 
 export default SignUpPage;
 export { SignUpForm, SignUpLink };
