@@ -14,8 +14,7 @@ import SignInPage from '../SignIn';
 import SignUpPage from '../SignUp';
 
 import { ADMIN, ACCOUNT, HOME, LANDING, PASSWORD_FORGET, SIGN_IN, SIGN_UP } from '../../constants/routes';
-import { withFirebase } from '../Firebase';
-import { AuthUserContext } from '../Session';
+import { withAuthentication } from '../Session';
 
 class App extends Component {
   constructor(props) {
@@ -27,11 +26,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-      authUser
-        ? this.setState({ authUser })
-        : this.setState({ authUser: null });
-    });
+    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => 
+      this.setState({ authUser })
+    );
   }
 
   componentWillUnmount() {
@@ -39,28 +36,24 @@ class App extends Component {
   }
 
   render() {
-    const { authUser } = this.state;
-
     return (
-      <AuthUserContext.Provider value={this.state.authUser}>
-        <Router>
-          <div>
-            <Navigation />
+      <Router>
+        <div>
+          <Navigation />
 
-            <hr />
+          <hr />
 
-            <Route exact path={LANDING} component={LandingPage} />
-            <Route path={ACCOUNT} component={AccountPage} />
-            <Route path={ADMIN} component={AdminPage} />
-            <Route path={HOME} component={HomePage} />
-            <Route path={PASSWORD_FORGET} component={PasswordForgetPage} />
-            <Route path={SIGN_IN} component={SignInPage} />
-            <Route path={SIGN_UP} component={SignUpPage} />
-          </div>
-        </Router>
-      </AuthUserContext.Provider>
+          <Route exact path={LANDING} component={LandingPage} />
+          <Route path={ACCOUNT} component={AccountPage} />
+          <Route path={ADMIN} component={AdminPage} />
+          <Route path={HOME} component={HomePage} />
+          <Route path={PASSWORD_FORGET} component={PasswordForgetPage} />
+          <Route path={SIGN_IN} component={SignInPage} />
+          <Route path={SIGN_UP} component={SignUpPage} />
+        </div>
+      </Router>
     );
   }
 }
 
-export default withFirebase(App);
+export default withAuthentication(App);

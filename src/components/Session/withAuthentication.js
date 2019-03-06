@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import AuthUserContext from './context';
+import { withFirebase } from '../Firebase';
+
 const withAuthentication = WrappedComponent => {
   class WithAuthentication extends Component {
     constructor(props) {
@@ -11,21 +14,29 @@ const withAuthentication = WrappedComponent => {
     }
 
     componentDidMount() {
-      this.listener = this.props.firebase.auth.onAuthStateChanged(
-        authUser => {
-          authUser
-            ? this.setState({ authUser })
-            : this.setState({ authUser: null })
-        }
+      const { firebase } = this.props;
+      
+      this.listener = firebase.auth.onAuthStateChanged(
+        authUser => this.setState({ authUser })
       );
     }
 
+    componentWillUnmount() {
+      this.listener();
+    }
+
     render() {
-      return <WrappedComponent {...this.props} />;
+      const { authUser } = this.state;
+
+      return (
+        <AuthUserContext.Provider value={authUser}>
+          <WrappedComponent {...this.props} />
+        </AuthUserContext.Provider>
+      );
     }
   }
 
-  return WithAuthentication;
+  return withFirebase(WithAuthentication);
 }
 
 export default withAuthentication;
