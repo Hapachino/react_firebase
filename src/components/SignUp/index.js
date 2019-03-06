@@ -39,14 +39,13 @@ class SignUpFormBase extends Component {
         history,
       },
       state: {
-        username,
         email,
         password,
       }, 
     } = this;
     
     try {
-      const authUser = await firebase.doCreateUserWithEmailAndPassword(email, password);
+      await firebase.doCreateUserWithEmailAndPassword(email, password);
 
       this.setState({ ...INITIAL_STATE });
       
