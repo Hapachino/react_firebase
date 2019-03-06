@@ -24,7 +24,7 @@ const withAuthorization = condition => WrappedComponent => {
     } 
 
     render() {
-      return <Component {...this.props} />
+      return <WrappedComponent {...this.props} />
     }
   }
 
