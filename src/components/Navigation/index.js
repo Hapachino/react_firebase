@@ -3,28 +3,43 @@ import { Link } from 'react-router-dom';
 
 import { ADMIN, ACCOUNT, HOME, LANDING, SIGN_IN } from '../../constants/routes';
 
+const links = [
+  {
+    route: ADMIN,
+    text: 'Admin',
+  },
+  {
+    route: ACCOUNT,
+    text: 'Account',
+  },
+  {
+    route: HOME,
+    text: 'Home',
+  },
+  {
+    route: LANDING,
+    text: 'Landing',
+  },
+  {
+    route: SIGN_IN,
+    text: 'Sign In',
+  },
+];
+
+const renderLink = ({ route, text }) => {
+  return (
+    <li key={route}>
+      <Link to={route}>{text}</Link>
+    </li>
+  );
+};
+
 const Navigation = () => {
   return (
-    <div>
-      <ul>
-        <li>
-          <Link to={SIGN_IN}>Sign In</Link>
-        </li>
-        <li>
-          <Link to={LANDING}>Landing</Link>
-        </li>
-        <li>
-          <Link to={HOME}>Home</Link>
-        </li>
-        <li>
-          <Link to={ACCOUNT}>Account</Link>
-        </li>
-        <li>
-          <Link to={ADMIN}>Admin</Link>
-        </li>
-      </ul>
-    </div>
-  )
-}
+    <ul>
+      {links.map(renderLink)}
+    </ul>
+  );
+};
 
 export default Navigation;
